@@ -1,10 +1,17 @@
 // Variables
 const resultados = document.querySelector('#resultado');
+const year = document.querySelector('#year');
+
+const max = new Date().getFullYear();
+const min = max - 13;
 
 // Eventos
 // Esperamos que cargue todo el html
 document.addEventListener('DOMContentLoaded', () => {
-  mostrarAutos();
+  mostrarAutos(); // muestra los autos al cargar
+
+  // LLena las opciones de años
+  llenarSelect();
 });
 
 // funciones
@@ -24,4 +31,16 @@ function mostrarAutos() {
     // agregamos la referencia a resultados
     resultados.appendChild(autoHTML);
   });
+}
+
+function llenarSelect() {
+  // recorremos desde max al min
+  for (let i = max; i >= min; i--) {
+    // creamos un elemento option,y asignamos el valor y contenido por cada iteración
+    const opciones = document.createElement('option');
+    opciones.setAttribute('value', i);
+    opciones.textContent = i;
+
+    year.appendChild(opciones); // Agrega las opciones de años al select
+  }
 }
