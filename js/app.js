@@ -27,7 +27,7 @@ const datosBusqueda = {
 // Eventos
 // Esperamos que cargue todo el html
 document.addEventListener('DOMContentLoaded', () => {
-  mostrarAutos(); // muestra los autos al cargar
+  // mostrarAutos(); // muestra los autos al cargar
 
   // LLena las opciones de años
   llenarSelect();
@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 marca.addEventListener('change', (e) => {
   datosBusqueda.marca = e.target.value;
+  const resultadoFinal = filtrarAuto();
+
+  mostrarAutos(resultadoFinal);
 });
 year.addEventListener('change', (e) => {
   datosBusqueda.year = e.target.value;
@@ -58,7 +61,7 @@ color.addEventListener('change', (e) => {
 });
 
 // funciones
-function mostrarAutos() {
+function mostrarAutos(autos) {
   // itero todo el arreglo de autos
 
   autos.forEach((auto) => {
@@ -86,4 +89,23 @@ function llenarSelect() {
 
     year.appendChild(opciones); // Agrega las opciones de años al select
   }
+}
+
+// Función que filtra en base a la busqueda
+function filtrarAuto() {
+  const resultado = autos.filter(filtrarMarca);
+
+  return resultado;
+}
+
+function filtrarMarca(auto) {
+
+  const { marca } = datosBusqueda;
+
+  // si existe un valor en la propiedad de marca, para evitar ''
+  if (marca) {
+    return auto.marca == datosBusqueda.marca;
+  }
+  // matener la referencia de los automoviles no filtrados
+  return auto;
 }
