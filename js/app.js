@@ -27,7 +27,7 @@ const datosBusqueda = {
 // Eventos
 // Esperamos que cargue todo el html
 document.addEventListener('DOMContentLoaded', () => {
-  // mostrarAutos(); // muestra los autos al cargar
+  mostrarAutos(); // muestra los autos al cargar
 
   // LLena las opciones de años
   llenarSelect();
@@ -43,9 +43,11 @@ year.addEventListener('change', (e) => {
 });
 minimo.addEventListener('change', (e) => {
   datosBusqueda.minimo = parseInt(e.target.value);
+  filtrarAuto();
 });
 maximo.addEventListener('change', (e) => {
   datosBusqueda.maximo = parseInt(e.target.value);
+  filtrarAuto();
 });
 puertas.addEventListener('change', (e) => {
   datosBusqueda.puertas = parseInt(e.target.value);
@@ -102,7 +104,11 @@ function llenarSelect() {
 
 // Función que filtra en base a la busqueda
 function filtrarAuto() {
-  const resultadoNuevoArreglo = autos.filter(filtrarMarca).filter(filtrarYear);
+  const resultadoNuevoArreglo = autos
+    .filter(filtrarMarca)
+    .filter(filtrarYear)
+    .filter(filtrarMinimo)
+    .filter(filtrarMaximo);
 
   // console.log(resultado)
   mostrarAutos(resultadoNuevoArreglo);
@@ -123,6 +129,28 @@ function filtrarYear(auto) {
   const { year } = datosBusqueda;
   if (year) {
     return auto.year === year;
+  }
+
+  return auto;
+}
+
+function filtrarMinimo(auto) {
+  const { minimo } = datosBusqueda;
+
+  if (minimo) {
+    // validar si el precio es mayor al minimo
+    return auto.precio >= minimo;
+  }
+
+  return auto;
+}
+
+function filtrarMaximo(auto) {
+  const { maximo } = datosBusqueda;
+
+  if (maximo) {
+    // validar si el precio es menor al maximo
+    return auto.precio <= maximo;
   }
 
   return auto;
