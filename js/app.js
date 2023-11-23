@@ -35,21 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 marca.addEventListener('change', (e) => {
   datosBusqueda.marca = e.target.value;
-  const resultadoFinal = filtrarAuto();
-
-  mostrarAutos(resultadoFinal);
+  filtrarAuto();
 });
 year.addEventListener('change', (e) => {
-  datosBusqueda.year = e.target.value;
+  datosBusqueda.year = parseInt(e.target.value);
+  filtrarAuto();
 });
 minimo.addEventListener('change', (e) => {
-  datosBusqueda.minimo = e.target.value;
+  datosBusqueda.minimo = parseInt(e.target.value);
 });
 maximo.addEventListener('change', (e) => {
-  datosBusqueda.maximo = e.target.value;
+  datosBusqueda.maximo = parseInt(e.target.value);
 });
 puertas.addEventListener('change', (e) => {
-  datosBusqueda.puertas = e.target.value;
+  datosBusqueda.puertas = parseInt(e.target.value);
 });
 transmision.addEventListener('change', (e) => {
   datosBusqueda.transmision = e.target.value;
@@ -61,10 +60,10 @@ color.addEventListener('change', (e) => {
 });
 
 // funciones
-function mostrarAutos(autos) {
-  // itero todo el arreglo de autos
+function mostrarAutos(resultadoNuevoArreglo) {
+  // itero todo el arreglo nuevo con filtro
 
-  autos.forEach((auto) => {
+  resultadoNuevoArreglo.forEach((auto) => {
     // aplicando destructuracion
     const { marca, modelo, year, precio, puertas, color, transmision } = auto;
 
@@ -93,19 +92,28 @@ function llenarSelect() {
 
 // Función que filtra en base a la busqueda
 function filtrarAuto() {
-  const resultado = autos.filter(filtrarMarca);
+  const resultadoNuevoArreglo = autos.filter(filtrarMarca).filter(filtrarYear);
 
-  return resultado;
+  // console.log(resultado)
+  mostrarAutos(resultadoNuevoArreglo);
 }
 
 function filtrarMarca(auto) {
-
   const { marca } = datosBusqueda;
 
   // si existe un valor en la propiedad de marca, para evitar ''
   if (marca) {
-    return auto.marca == datosBusqueda.marca;
+    return auto.marca === datosBusqueda.marca;
   }
   // matener la referencia de los automoviles no filtrados
+  return auto;
+}
+
+function filtrarYear(auto) {
+  const { year } = datosBusqueda;
+  if (year) {
+    return auto.year === year;
+  }
+
   return auto;
 }
