@@ -27,7 +27,7 @@ const datosBusqueda = {
 // Eventos
 // Esperamos que cargue todo el html
 document.addEventListener('DOMContentLoaded', () => {
-  mostrarAutos(); // muestra los autos al cargar
+  // mostrarAutos(); // muestra los autos al cargar
 
   // LLena las opciones de años
   llenarSelect();
@@ -114,8 +114,23 @@ function filtrarAuto() {
     .filter(filtrarTransmision)
     .filter(filtrarColor);
 
-  // console.log(resultado)
-  mostrarAutos(resultadoNuevoArreglo);
+  if (resultadoNuevoArreglo.length) {
+    mostrarAutos(resultadoNuevoArreglo);
+  } else {
+    noResultado();
+  }
+}
+
+function noResultado() {
+  // Eliminar el html previo
+  limpiarHTML();
+
+  const mensaje = document.createElement('div');
+  mensaje.textContent =
+    'No hay resultados, Intenta con otros términos de búsqueda';
+  mensaje.classList.add('alerta', 'error');
+
+  resultado.appendChild(mensaje);
 }
 
 function filtrarMarca(auto) {
