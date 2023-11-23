@@ -7,8 +7,8 @@ const puertas = document.querySelector('#puertas');
 const transmision = document.querySelector('#transmision');
 const color = document.querySelector('#color');
 
-// contenedor resultados
-const resultados = document.querySelector('#resultado');
+// contenedor resultado
+const resultado = document.querySelector('#resultado');
 
 const max = new Date().getFullYear();
 const min = max - 13;
@@ -60,10 +60,12 @@ color.addEventListener('change', (e) => {
 });
 
 // funciones
-function mostrarAutos(resultadoNuevoArreglo) {
-  // itero todo el arreglo nuevo con filtro
+function mostrarAutos(autos) {
+  // Eliminar el html previo
+  limpiarHTML();
 
-  resultadoNuevoArreglo.forEach((auto) => {
+  // itero todo el arreglo nuevo con filtro
+  autos.forEach((auto) => {
     // aplicando destructuracion
     const { marca, modelo, year, precio, puertas, color, transmision } = auto;
 
@@ -73,9 +75,17 @@ function mostrarAutos(resultadoNuevoArreglo) {
     // agregamos el contenido al parrafo
     autoHTML.textContent = `Marca: ${marca} - Modelo: ${modelo} - ${year} - Precio: ${precio} - ${puertas} Puertas - Color: ${color} - Transmisión: ${transmision}`;
 
-    // agregamos la referencia a resultados
-    resultados.appendChild(autoHTML);
+    // agregamos la referencia a resultado
+    resultado.appendChild(autoHTML);
   });
+}
+
+function limpiarHTML() {
+  // borrar contenido, mientras haya algo en el primer nodo hijo
+  while (resultado.firstChild) {
+    // elimina el primer nodo hijo de resultado
+    resultado.removeChild(resultado.firstChild);
+  }
 }
 
 function llenarSelect() {
